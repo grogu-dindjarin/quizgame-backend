@@ -4,6 +4,7 @@ import com.bramengel.quizgame.dto.AnswerRequest;
 import com.bramengel.quizgame.dto.AnswerResponse;
 import com.bramengel.quizgame.service.AnswerService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class AnswerController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<AnswerResponse> create(@PathVariable Long questionId, @Valid @RequestBody AnswerRequest req) {
         AnswerResponse response = answerService.create(questionId, req);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{answerId}")
