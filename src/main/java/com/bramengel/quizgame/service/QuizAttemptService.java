@@ -74,7 +74,7 @@ public class QuizAttemptService {
                 correctCount++;
             }
         }
-        return correctCount + 1;
+        return correctCount;
     }
 
     private QuizAttemptResponse buildResponse(QuizAttempt attempt, Subcategory subcategory, List<Badge> earnedBadges) {
