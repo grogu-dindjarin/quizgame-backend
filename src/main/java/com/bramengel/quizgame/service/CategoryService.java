@@ -2,6 +2,7 @@ package com.bramengel.quizgame.service;
 
 import com.bramengel.quizgame.dto.CategoryRequest;
 import com.bramengel.quizgame.dto.CategoryResponse;
+import com.bramengel.quizgame.dto.SubcategoryResponse;
 import com.bramengel.quizgame.exception.BadRequestException;
 import com.bramengel.quizgame.exception.RecordNotFoundException;
 import com.bramengel.quizgame.model.Category;
@@ -60,6 +61,10 @@ public class CategoryService {
     }
 
     private CategoryResponse toResponse(Category c) {
-        return new CategoryResponse(c.getId(), c.getName(), c.getSubcategories().size());
+        List<SubcategoryResponse> subs = c.getSubcategories().stream()
+                .map(s -> new SubcategoryResponse(s.getId(), s.getName(), s.getDifficulty(),
+                        c.getId(), c.getName(), s.getQuestions().size()))
+                .toList();
+        return new CategoryResponse(c.getId(), c.getName(), subs.size(), subs);
     }
 }
