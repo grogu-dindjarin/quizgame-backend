@@ -1,5 +1,6 @@
 package com.bramengel.quizgame.service;
 
+import com.bramengel.quizgame.dto.AnswerResponse;
 import com.bramengel.quizgame.dto.QuestionRequest;
 import com.bramengel.quizgame.dto.QuestionResponse;
 import com.bramengel.quizgame.exception.RecordNotFoundException;
@@ -69,21 +70,25 @@ public class QuestionService {
 
     private Subcategory findSubcategoryOrThrow(Long id) {
         return subcategoryRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Subcategory not found with id: " + id));
+                .orElseThrow(() -> new RecordNotFoundException("Subcategorie niet gevonden met id: " + id));
     }
 
     private Question findQuestionOrThrow(Long id) {
         return questionRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Question not found with id: " + id));
+                .orElseThrow(() -> new RecordNotFoundException("Vraag niet gevonden met id: " + id));
     }
 
     private QuestionResponse toResponse(Question q) {
+        List<AnswerResponse> answers = q.getAnswers().stream()
+                .map(a -> new AnswerResponse(a.getId(), a.getText(), a.isCorrect(), q.getId()))
+                .toList();
         return new QuestionResponse(
                 q.getId(),
                 q.getText(),
                 q.getImagePath(),
                 q.getSubcategory().getId(),
-                q.getSubcategory().getName()
+                q.getSubcategory().getName(),
+                answers
         );
     }
 }

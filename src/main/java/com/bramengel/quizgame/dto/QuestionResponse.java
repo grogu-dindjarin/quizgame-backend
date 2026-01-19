@@ -1,5 +1,7 @@
 package com.bramengel.quizgame.dto;
 
+import java.util.List;
+
 public class QuestionResponse {
 
     private Long id;
@@ -7,15 +9,17 @@ public class QuestionResponse {
     private String imagePath;
     private Long subcategoryId;
     private String subcategoryName;
+    private List<AnswerResponse> answers;
 
     public QuestionResponse() {}
 
-    public QuestionResponse(Long id, String text, String imagePath, Long subcategoryId, String subcategoryName) {
+    public QuestionResponse(Long id, String text, String imagePath, Long subcategoryId, String subcategoryName, List<AnswerResponse> answers) {
         this.id = id;
         this.text = text;
         this.imagePath = imagePath;
         this.subcategoryId = subcategoryId;
         this.subcategoryName = subcategoryName;
+        this.answers = answers;
     }
 
     public Long getId() { return id; }
@@ -32,4 +36,7 @@ public class QuestionResponse {
 
     public String getSubcategoryName() { return subcategoryName; }
     public void setSubcategoryName(String subcategoryName) { this.subcategoryName = subcategoryName; }
+
+    public List<AnswerResponse> getAnswers() { return answers; }
+    public void setAnswers(List<AnswerResponse> answers) { this.answers = answers; }
 }
