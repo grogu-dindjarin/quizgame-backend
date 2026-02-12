@@ -59,12 +59,12 @@ public class AnswerService {
 
     private Question findQuestionOrThrow(Long id) {
         return questionRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Question not found with id: " + id));
+                .orElseThrow(() -> new RecordNotFoundException("Vraag niet gevonden met id: " + id));
     }
 
     private Answer findAnswerOrThrow(Long id) {
         return answerRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Answer not found with id: " + id));
+                .orElseThrow(() -> new RecordNotFoundException("Antwoord niet gevonden met id: " + id));
     }
 
     private AnswerResponse toResponse(Answer a) {

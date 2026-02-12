@@ -68,12 +68,12 @@ public class SubcategoryService {
 
     private Category findCategoryOrThrow(Long id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Category not found with id: " + id));
+                .orElseThrow(() -> new RecordNotFoundException("Categorie niet gevonden met id: " + id));
     }
 
     private Subcategory findSubcategoryOrThrow(Long id) {
         return subcategoryRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Subcategory not found with id: " + id));
+                .orElseThrow(() -> new RecordNotFoundException("Subcategorie niet gevonden met id: " + id));
     }
 
     private SubcategoryResponse toResponse(Subcategory s) {
