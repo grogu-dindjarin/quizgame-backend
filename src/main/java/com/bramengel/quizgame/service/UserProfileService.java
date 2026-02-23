@@ -10,6 +10,7 @@ import com.bramengel.quizgame.model.UserProfile;
 import com.bramengel.quizgame.repository.UserProfileRepository;
 import com.bramengel.quizgame.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,12 +34,14 @@ public class UserProfileService {
         this.userRepository = userRepository;
     }
 
+    @Transactional(readOnly = true)
     public UserProfileResponse getProfileByUserId(Long userId) {
         UserProfile profile = userProfileRepository.findByUserId(userId)
                 .orElseThrow(() -> new RecordNotFoundException("Profiel niet gevonden voor gebruiker: " + userId));
         return toResponse(profile);
     }
 
+    @Transactional(readOnly = true)
     public UserProfileResponse getProfileByEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RecordNotFoundException("Gebruiker niet gevonden: " + email));

@@ -6,6 +6,7 @@ import com.bramengel.quizgame.model.UserProfile;
 import com.bramengel.quizgame.repository.QuizAttemptRepository;
 import com.bramengel.quizgame.repository.UserProfileRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,6 +26,7 @@ public class LeaderboardService {
         this.userProfileRepository = userProfileRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<LeaderboardEntryResponse> getLeaderboard() {
         List<QuizAttempt> attempts = quizAttemptRepository.findAll();
 
