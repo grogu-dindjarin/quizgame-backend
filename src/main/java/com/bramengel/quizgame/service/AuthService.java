@@ -4,6 +4,7 @@ import com.bramengel.quizgame.dto.AuthResponse;
 import com.bramengel.quizgame.dto.LoginRequest;
 import com.bramengel.quizgame.dto.RegisterRequest;
 import com.bramengel.quizgame.exception.BadRequestException;
+import com.bramengel.quizgame.exception.RecordNotFoundException;
 import com.bramengel.quizgame.model.Role;
 import com.bramengel.quizgame.model.User;
 import com.bramengel.quizgame.model.UserProfile;
@@ -60,7 +61,7 @@ public class AuthService {
         }
 
         UserProfile profile = userProfileRepository.findByUserId(user.getId())
-            .orElseThrow(() -> new BadRequestException("Gebruikersprofiel niet gevonden"));
+            .orElseThrow(() -> new RecordNotFoundException("Gebruikersprofiel niet gevonden voor gebruiker: " + user.getId()));
 
         String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
         return new AuthResponse(token, user.getEmail(), user.getRole().name(), profile.getDisplayName(), user.getId());
