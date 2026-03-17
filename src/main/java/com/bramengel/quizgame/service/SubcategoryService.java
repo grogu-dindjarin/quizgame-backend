@@ -2,6 +2,7 @@ package com.bramengel.quizgame.service;
 
 import com.bramengel.quizgame.dto.SubcategoryRequest;
 import com.bramengel.quizgame.dto.SubcategoryResponse;
+import com.bramengel.quizgame.dto.SubcategoryUpdateRequest;
 import com.bramengel.quizgame.exception.RecordNotFoundException;
 import com.bramengel.quizgame.model.Category;
 import com.bramengel.quizgame.model.Subcategory;
@@ -51,12 +52,10 @@ public class SubcategoryService {
     }
 
     @Transactional
-    public SubcategoryResponse update(Long id, SubcategoryRequest req) {
+    public SubcategoryResponse update(Long id, SubcategoryUpdateRequest req) {
         Subcategory subcategory = findSubcategoryOrThrow(id);
-        Category category = findCategoryOrThrow(req.getCategoryId());
         subcategory.setName(req.getName());
         subcategory.setDifficulty(req.getDifficulty());
-        subcategory.setCategory(category);
         return toResponse(subcategoryRepository.save(subcategory));
     }
 

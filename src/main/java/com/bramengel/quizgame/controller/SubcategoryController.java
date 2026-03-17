@@ -2,6 +2,7 @@ package com.bramengel.quizgame.controller;
 
 import com.bramengel.quizgame.dto.SubcategoryRequest;
 import com.bramengel.quizgame.dto.SubcategoryResponse;
+import com.bramengel.quizgame.dto.SubcategoryUpdateRequest;
 import com.bramengel.quizgame.service.SubcategoryService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class SubcategoryController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<SubcategoryResponse> update(@PathVariable Long id, @Valid @RequestBody SubcategoryRequest req) {
+    public ResponseEntity<SubcategoryResponse> update(@PathVariable Long id, @Valid @RequestBody SubcategoryUpdateRequest req) {
         return ResponseEntity.ok(subcategoryService.update(id, req));
     }
 
