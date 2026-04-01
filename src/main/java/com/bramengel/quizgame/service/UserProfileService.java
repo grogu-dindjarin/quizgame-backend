@@ -29,6 +29,9 @@ public class UserProfileService {
     @Value("${app.upload.dir}")
     private String uploadDir;
 
+    @Value("${app.avatars.serve-path:/uploads/avatars}")
+    private String avatarServePath;
+
     public UserProfileService(UserProfileRepository userProfileRepository, UserRepository userRepository) {
         this.userProfileRepository = userProfileRepository;
         this.userRepository = userRepository;
@@ -87,7 +90,7 @@ public class UserProfileService {
 
             Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 
-            profile.setAvatarPath("/" + uploadDir + "/" + filename);
+            profile.setAvatarPath(avatarServePath + "/" + filename);
             userProfileRepository.save(profile);
         } catch (IOException e) {
             throw new BadRequestException("Avatar opslaan mislukt: " + e.getMessage());
