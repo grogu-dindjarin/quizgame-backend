@@ -66,6 +66,15 @@ Tests use an H2 in-memory database — no MySQL required.
 
 Authentication uses JWT in the `Authorization: Bearer <token>` header.
 
+## Test logins
+
+Two accounts are pre-loaded via `data.sql`:
+
+| Email            | Password | Role  |
+| ---------------- | -------- | ----- |
+| admin@quizzle.nl  | welkom123 | ADMIN |
+| speler@quizzle.nl | welkom123 | USER  |
+
 ## Project structure
 
 ```
