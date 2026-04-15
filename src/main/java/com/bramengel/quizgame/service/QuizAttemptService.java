@@ -51,7 +51,6 @@ public class QuizAttemptService {
 
         int totalQuestions = request.getAnswers().size();
         int score = calculateScore(request.getAnswers());
-        System.out.println("Score calculated: " + score + " / " + totalQuestions);
 
         QuizAttempt attempt = new QuizAttempt(user, subcategory, score, totalQuestions);
         QuizAttempt saved = quizAttemptRepository.save(attempt);

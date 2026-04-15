@@ -29,7 +29,6 @@ public class LeaderboardService {
     @Transactional(readOnly = true)
     public List<LeaderboardEntryResponse> getLeaderboard() {
         List<QuizAttempt> attempts = quizAttemptRepository.findAll();
-        System.out.println("DEBUG: leaderboard found " + attempts.size() + " attempts");
 
         Map<Long, int[]> aggregates = new HashMap<>();
         for (QuizAttempt attempt : attempts) {
