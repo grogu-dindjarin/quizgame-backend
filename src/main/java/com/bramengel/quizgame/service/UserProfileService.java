@@ -4,7 +4,6 @@ import com.bramengel.quizgame.dto.UserProfileResponse;
 import com.bramengel.quizgame.dto.UserProfileUpdateRequest;
 import com.bramengel.quizgame.exception.BadRequestException;
 import com.bramengel.quizgame.exception.RecordNotFoundException;
-import com.bramengel.quizgame.model.Difficulty;
 import com.bramengel.quizgame.model.User;
 import com.bramengel.quizgame.model.UserProfile;
 import com.bramengel.quizgame.repository.UserProfileRepository;
@@ -59,12 +58,8 @@ public class UserProfileService {
 
         profile.setDisplayName(req.getDisplayName());
 
-        if (req.getPreferredDifficulty() != null && !req.getPreferredDifficulty().isBlank()) {
-            try {
-                profile.setPreferredDifficulty(Difficulty.valueOf(req.getPreferredDifficulty().toUpperCase()));
-            } catch (IllegalArgumentException e) {
-                throw new BadRequestException("Ongeldige moeilijkheidsgraad: " + req.getPreferredDifficulty());
-            }
+        if (req.getPreferredDifficulty() != null) {
+            profile.setPreferredDifficulty(req.getPreferredDifficulty());
         }
 
         userProfileRepository.save(profile);
@@ -100,15 +95,12 @@ public class UserProfileService {
     }
 
     private UserProfileResponse toResponse(UserProfile profile) {
-        String difficulty = profile.getPreferredDifficulty() != null
-                ? profile.getPreferredDifficulty().name()
-                : null;
         return new UserProfileResponse(
                 profile.getId(),
                 profile.getUser().getId(),
                 profile.getDisplayName(),
                 profile.getAvatarPath(),
-                difficulty
+                profile.getPreferredDifficulty()
         );
     }
 }

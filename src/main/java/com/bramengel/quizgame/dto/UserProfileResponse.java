@@ -1,17 +1,19 @@
 package com.bramengel.quizgame.dto;
 
+import com.bramengel.quizgame.model.Difficulty;
+
 public class UserProfileResponse {
 
     private Long id;
     private Long userId;
     private String displayName;
     private String avatarPath;
-    private String preferredDifficulty;
+    private Difficulty preferredDifficulty;
 
     public UserProfileResponse() {
     }
 
-    public UserProfileResponse(Long id, Long userId, String displayName, String avatarPath, String preferredDifficulty) {
+    public UserProfileResponse(Long id, Long userId, String displayName, String avatarPath, Difficulty preferredDifficulty) {
         this.id = id;
         this.userId = userId;
         this.displayName = displayName;
@@ -31,6 +33,6 @@ public class UserProfileResponse {
     public String getAvatarPath() { return avatarPath; }
     public void setAvatarPath(String avatarPath) { this.avatarPath = avatarPath; }
 
-    public String getPreferredDifficulty() { return preferredDifficulty; }
-    public void setPreferredDifficulty(String preferredDifficulty) { this.preferredDifficulty = preferredDifficulty; }
+    public Difficulty getPreferredDifficulty() { return preferredDifficulty; }
+    public void setPreferredDifficulty(Difficulty preferredDifficulty) { this.preferredDifficulty = preferredDifficulty; }
 }

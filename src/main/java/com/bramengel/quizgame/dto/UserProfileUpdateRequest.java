@@ -1,5 +1,6 @@
 package com.bramengel.quizgame.dto;
 
+import com.bramengel.quizgame.model.Difficulty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -9,7 +10,7 @@ public class UserProfileUpdateRequest {
     @Size(min = 2, max = 50, message = "Display name must be between 2 and 50 characters")
     private String displayName;
 
-    private String preferredDifficulty;
+    private Difficulty preferredDifficulty;
 
     public UserProfileUpdateRequest() {
     }
@@ -17,6 +18,6 @@ public class UserProfileUpdateRequest {
     public String getDisplayName() { return displayName; }
     public void setDisplayName(String displayName) { this.displayName = displayName; }
 
-    public String getPreferredDifficulty() { return preferredDifficulty; }
-    public void setPreferredDifficulty(String preferredDifficulty) { this.preferredDifficulty = preferredDifficulty; }
+    public Difficulty getPreferredDifficulty() { return preferredDifficulty; }
+    public void setPreferredDifficulty(Difficulty preferredDifficulty) { this.preferredDifficulty = preferredDifficulty; }
 }

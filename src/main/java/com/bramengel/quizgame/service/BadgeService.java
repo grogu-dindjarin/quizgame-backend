@@ -1,11 +1,14 @@
 package com.bramengel.quizgame.service;
 
+import com.bramengel.quizgame.dto.BadgeResponse;
+import com.bramengel.quizgame.exception.RecordNotFoundException;
 import com.bramengel.quizgame.model.Badge;
 import com.bramengel.quizgame.model.Difficulty;
 import com.bramengel.quizgame.model.User;
 import com.bramengel.quizgame.model.UserBadge;
 import com.bramengel.quizgame.repository.BadgeRepository;
 import com.bramengel.quizgame.repository.UserBadgeRepository;
+import com.bramengel.quizgame.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +21,28 @@ public class BadgeService {
 
     private final BadgeRepository badgeRepository;
     private final UserBadgeRepository userBadgeRepository;
+    private final UserRepository userRepository;
 
-    public BadgeService(BadgeRepository badgeRepository, UserBadgeRepository userBadgeRepository) {
+    public BadgeService(BadgeRepository badgeRepository, UserBadgeRepository userBadgeRepository, UserRepository userRepository) {
         this.badgeRepository = badgeRepository;
         this.userBadgeRepository = userBadgeRepository;
+        this.userRepository = userRepository;
+    }
+
+    @Transactional(readOnly = true)
+    public List<BadgeResponse> findAll() {
+        return badgeRepository.findAll().stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<BadgeResponse> findEarnedByUserEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RecordNotFoundException("Gebruiker niet gevonden: " + email));
+        return userBadgeRepository.findByUserId(user.getId()).stream()
+                .map(ub -> toResponse(ub.getBadge()))
+                .toList();
     }
 
     @Transactional
@@ -62,5 +83,9 @@ public class BadgeService {
 
         userBadgeRepository.save(new UserBadge(user, found));
         return Optional.of(found);
+    }
+
+    private BadgeResponse toResponse(Badge badge) {
+        return new BadgeResponse(badge.getId(), badge.getName(), badge.getDescription(), badge.getIconPath());
     }
 }
