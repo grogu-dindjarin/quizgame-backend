@@ -4,6 +4,7 @@ import com.bramengel.quizgame.dto.AuthResponse;
 import com.bramengel.quizgame.dto.LoginRequest;
 import com.bramengel.quizgame.dto.RegisterRequest;
 import com.bramengel.quizgame.exception.BadRequestException;
+import com.bramengel.quizgame.exception.RecordNotFoundException;
 import com.bramengel.quizgame.model.Role;
 import com.bramengel.quizgame.model.User;
 import com.bramengel.quizgame.model.UserProfile;
@@ -182,7 +183,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void authenticate_withMissingProfile_throwsBadRequestException() {
+    void authenticate_withMissingProfile_throwsRecordNotFoundException() {
         // Arrange
         LoginRequest request = new LoginRequest();
         request.setEmail("bram@example.com");
@@ -196,12 +197,12 @@ class AuthServiceTest {
         when(userProfileRepository.findByUserId(1L)).thenReturn(Optional.empty());
 
         // Act & Assert
-        BadRequestException exception = assertThrows(
-                BadRequestException.class,
+        RecordNotFoundException exception = assertThrows(
+                RecordNotFoundException.class,
                 () -> authService.authenticate(request)
         );
 
-        assertEquals("Gebruikersprofiel niet gevonden", exception.getMessage());
+        assertEquals("Gebruikersprofiel niet gevonden voor gebruiker: 1", exception.getMessage());
         verify(jwtUtil, never()).generateToken(anyString(), anyString());
     }
 }

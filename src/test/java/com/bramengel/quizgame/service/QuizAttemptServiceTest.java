@@ -209,6 +209,31 @@ class QuizAttemptServiceTest {
     }
 
     @Test
+    void submitAttempt_withNoAnswers_setsPercentageToZero() {
+        // Arrange
+        User user = buildUser();
+        Subcategory subcategory = buildSubcategory();
+
+        QuizAttemptRequest request = new QuizAttemptRequest();
+        request.setSubcategoryId(subcategory.getId());
+        request.setAnswers(List.of());
+
+        when(userRepository.findByEmail("bram@example.com")).thenReturn(Optional.of(user));
+        when(subcategoryRepository.findById(10L)).thenReturn(Optional.of(subcategory));
+        when(quizAttemptRepository.save(any(QuizAttempt.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(quizAttemptRepository.findByUserId(1L)).thenReturn(List.of());
+        when(badgeService.checkAndAwardBadges(any(), anyInt(), anyInt(), anyInt(), any())).thenReturn(List.of());
+
+        // Act
+        QuizAttemptResponse response = quizAttemptService.submitAttempt("bram@example.com", request);
+
+        // Assert
+        assertEquals(0, response.getScore());
+        assertEquals(0, response.getTotalQuestions());
+        assertEquals(0.0, response.getPercentage());
+    }
+
+    @Test
     void submitAttempt_awardsBadgesOnPerfectScore() {
         // Arrange
         User user = buildUser();
